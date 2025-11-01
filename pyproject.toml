@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "noaa_collection_scraper"
+version = "0.1.0"
+description = "NOAA collection level metadata scraping pipeline"
+authors = [{ name = "Jerri Reeves" }]
+dependencies = [
+    "aiohttp>=3.9.0",
+    "tqdm>=4.66.0",
+    "lxml>=5.2.0",
+    "pyarrow>=16.0.0",
+    "pandas>=2.0.0",
+    "pendulum>=3.0.0"
+]
