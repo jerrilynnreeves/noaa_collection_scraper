@@ -7,6 +7,7 @@ name = "noaa_collection_scraper"
 version = "0.1.0"
 description = "NOAA collection level metadata scraping pipeline"
 authors = [{ name = "Jerri Reeves" }]
+requires-python = "^3.13"# Specifies that the project requires Python 3.12 or compatible patch versions.
 dependencies = [
     "aiohttp>=3.9.0",
     "tqdm>=4.66.0",

@@ -1,0 +1,19 @@
+# Core async scraping stack
+aiohttp>=3.9.0
+aiodns>=3.2.0
+async-timeout>=4.0.3
+
+# XML parsing
+lxml>=5.2.0
+
+# Data processing and time utilities
+pandas>=2.0.0
+pyarrow>=16.0.0
+pendulum>=3.0.0
+
+# Environment and progress utilities
+tqdm>=4.66.0
+python-dotenv>=1.0.1
+
+# Packaging build tool
+setuptools>=68.0

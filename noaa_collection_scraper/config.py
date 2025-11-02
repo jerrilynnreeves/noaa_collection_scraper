@@ -1,8 +1,8 @@
 from __future__ import annotations
 from pathlib import Path
-from datetime import datetime
 import os
 import logging
+import sys
 
 
 class Config:
@@ -12,14 +12,14 @@ class Config:
     """
 
     # --- Base Directories ---
-    BASE_DIR: Path = Path(__file__).resolve().parent.parent
-    DATA_DIR: Path = BASE_DIR / "data"
-    LOG_DIR: Path = BASE_DIR / "logs"
+    BASE_DIR = Path(__file__).resolve().parent.parent.parent
+    DATA_DIR = BASE_DIR / "data"
+    LOG_DIR = BASE_DIR / "logs"
 
     # --- Data Files ---
     DB_PATH: Path = DATA_DIR / "etag_store.db"
     PARQUET_FILE: Path = DATA_DIR / "metadata_extracted.parquet"
-    JSON_FILE: Path = DATA_DIR / "metadata_extracted.json" # Only used when user uncomments for debug purpses
+    JSON_FILE: Path = DATA_DIR / "metadata_extracted.json" # Only used when user uncomment for debug purposes
 
     # --- API Endpoints ---
     OSIM_SEARCH_API: str = "https://data.noaa.gov/onestop/api/search"
@@ -36,7 +36,7 @@ class Config:
 
     HEADERS: dict[str, str] = {"User-Agent": "TMF-Collection-Tool/2.0"}
 
-    # --- Runtime Behavior Flags ---
+    # --- Runtime Stat Bar Behavior Flags ---
     TQDM_ENABLED: bool = True  # Display progress bars by default
 
     # --- Utility Methods ---
@@ -68,25 +68,29 @@ class Config:
     @staticmethod
     def setup_logger(name: str, log_file: Path, level=logging.INFO) -> logging.Logger:
         """
-        Configures and returns a named logger with a file handler.
+        Configures and returns a named logger with a file and console handler.
         """
-        # Ensure the log directory exists
         Config.LOG_DIR.mkdir(parents=True, exist_ok=True)
-
         logger = logging.getLogger(name)
         logger.setLevel(level)
 
-        # Prevent duplicate handlers if the logger is retrieved multiple times
+        # Prevent duplicate handlers if already configured
         if logger.handlers:
             return logger
 
-        # File Handler
         formatter = logging.Formatter(
             "%(asctime)s [%(levelname)s] %(message)s",
             datefmt="%Y-%m-%d %H:%M:%S"
         )
+
+        # File Handler
         file_handler = logging.FileHandler(log_file)
         file_handler.setFormatter(formatter)
         logger.addHandler(file_handler)
+
+        # Console Handler
+        console_handler = logging.StreamHandler(sys.stdout)
+        console_handler.setFormatter(formatter)
+        logger.addHandler(console_handler)
 
         return logger
